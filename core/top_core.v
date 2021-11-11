@@ -113,6 +113,30 @@ module core (
     wire [5:0] opcode;
 
     //Execute stage
-    reg [31:0] CPSR;
+    //reg [31:0] CPSR;
+
+  localparam DECODE_PIPE_WIDTH  = 32;  //current_instruction
+
+  localparam EXECUTE_PIPE_WIDTH = 32  //inst_PC
+                                +  4  //condition code
+                                + 32  //Rm_data
+                                + 32  //Rs_data
+                                + 32  //Rn_data
+                                +  5  //Rd (RdHi)
+                                +  5  //RdLo
+                                + 12  //intermediate
+                                +  4;  //opcode
+
+  //TODO: go back and update this as I learn more
+
+  /*          FETCH STAGE           */
+
+
+  /*         DECODE STAGE           */
+
+
+  /*        EXECUTE STAGE           */
+
+
 
 endmodule

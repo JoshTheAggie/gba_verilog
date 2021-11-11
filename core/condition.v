@@ -2,7 +2,7 @@
 module condition (
     input [3:0] cond,
     input [31:0] cpsr,
-    output permitted
+    output flush
 );
 
     //condition codes
@@ -28,7 +28,9 @@ module condition (
     assign Z = cpsr[30];
     assign C = cpsr[29];
     assign V = cpsr[28];
-
+    
+    wire permitted;
+    
     assign permitted = (cond == AL) |
                        ((cond == EQ) & Z) |
                        ((cond == NE) & ~Z) |
@@ -45,4 +47,5 @@ module condition (
                        ((cond == GT) & (~Z & (N == V))) |
                        ((cond == LE) & (Z | (N != V)));
 
+    assign flush = ~permitted;
 endmodule
