@@ -23,30 +23,27 @@ localparam [4:0] ABORT      = 5'b10111;
 localparam [4:0] UNDEFINED  = 5'b11011;
 localparam [4:0] SYSTEM     = 5'b11111;
 
-reg [31:0] RegFileA [15:0]; //7 registers, 32 bits each
-reg [31:0] RegFileB [15:0]; //all 16 are seen by SYSTEM and USER
+reg [31:0] RegFileA [30:0]; //16 registers, 32 bits each, PLUS the registers shown below
+reg [31:0] RegFileB [30:0]; //all 16 are seen by SYSTEM and USER
 //reg [31:0] RegFileC [15:0];
 
-reg [31:0]  r8_fiqA,  r8_fiqB;
-reg [31:0]  r9_fiqA,  r9_fiqB;
-reg [31:0] r10_fiqA, r10_fiqB;
-reg [31:0] r11_fiqA, r11_fiqB;
-reg [31:0] r12_fiqA, r12_fiqB;
-reg [31:0] r13_fiqA, r13_fiqB;
-reg [31:0] r14_fiqA, r14_fiqB;
-
-reg [31:0] r13_svcA, r13_svcB;
-reg [31:0] r14_svcA, r14_svcB;
-
-reg [31:0] r13_abtA, r13_abtB;
-reg [31:0] r14_abtA, r14_abtB;
-
-reg [31:0] r13_irqA, r13_irqB;
-reg [31:0] r14_irqA, r14_irqB;
-
-reg [31:0] r13_undA, r13_undB;
-reg [31:0] r14_undA, r14_undB;
-
+/*
+reg [31:0]  r8_fiqA,  r8_fiqB;  //16
+reg [31:0]  r9_fiqA,  r9_fiqB;  //17
+reg [31:0] r10_fiqA, r10_fiqB;  //18
+reg [31:0] r11_fiqA, r11_fiqB;  //19
+reg [31:0] r12_fiqA, r12_fiqB;  //20
+reg [31:0] r13_fiqA, r13_fiqB;  //21
+reg [31:0] r14_fiqA, r14_fiqB;  //22
+reg [31:0] r13_svcA, r13_svcB;  //23
+reg [31:0] r14_svcA, r14_svcB;  //24
+reg [31:0] r13_abtA, r13_abtB;  //25
+reg [31:0] r14_abtA, r14_abtB;  //26
+reg [31:0] r13_irqA, r13_irqB;  //27
+reg [31:0] r14_irqA, r14_irqB;  //28
+reg [31:0] r13_undA, r13_undB;  //29
+reg [31:0] r14_undA, r14_undB;  //30
+*/
 
 /*      READ ON POSEDGE     */
 always@(posedge clk) begin
@@ -65,141 +62,141 @@ always@(posedge clk) begin
             if(Rn[3] == 1'b0 || Rn == 4'b1111)
                 Rn_data <= RegFileA[Rn];
             else if (Rn == 4'b1000)
-                Rn_data <= r8_fiqA;
+                Rn_data <= RegFileA[16];
             else if (Rn == 4'b1001)
-                Rn_data <= r9_fiqA;
+                Rn_data <= RegFileA[17];
             else if (Rn == 4'b1010)
-                Rn_data <= r10_fiqA;
+                Rn_data <= RegFileA[18];
             else if (Rn == 4'b1011)
-                Rn_data <= r11_fiqA;
+                Rn_data <= RegFileA[19];
             else if (Rn == 4'b1100)
-                Rn_data <= r12_fiqA;
+                Rn_data <= RegFileA[20];
             else if (Rn == 4'b1101)
-                Rn_data <= r13_fiqA;
+                Rn_data <= RegFileA[21];
             else if (Rn == 4'b1110)
-                Rn_data <= r14_fiqA;
+                Rn_data <= RegFileA[22];
             
             if(Rm[3] == 1'b0 || Rm == 4'b1111)
                 Rm_data <= RegFileA[Rm];
             else if (Rm == 4'b1000)
-                Rm_data <= r8_fiqA;
+                Rm_data <= RegFileA[16];
             else if (Rm == 4'b1001)
-                Rm_data <= r9_fiqA;
+                Rm_data <= RegFileA[17];
             else if (Rm == 4'b1010)
-                Rm_data <= r10_fiqA;
+                Rm_data <= RegFileA[18];
             else if (Rm == 4'b1011)
-                Rm_data <= r11_fiqA;
+                Rm_data <= RegFileA[19];
             else if (Rm == 4'b1100)
-                Rm_data <= r12_fiqA;
+                Rm_data <= RegFileA[20];
             else if (Rm == 4'b1101)
-                Rm_data <= r13_fiqA;
+                Rm_data <= RegFileA[21];
             else if (Rm == 4'b1110)
-                Rm_data <= r14_fiqA;
+                Rm_data <= RegFileA[22];
             
             if(Rs[3] == 1'b0 || Rs == 4'b1111)
                 Rs_data <= RegFileB[Rs];
             else if (Rs == 4'b1000)
-                Rs_data <= r8_fiqB;
+                Rs_data <= RegFileB[16];
             else if (Rs == 4'b1001)
-                Rs_data <= r9_fiqB;
+                Rs_data <= RegFileB[17];
             else if (Rs == 4'b1010)
-                Rs_data <= r10_fiqB;
+                Rs_data <= RegFileB[18];
             else if (Rs == 4'b1011)
-                Rs_data <= r11_fiqB;
+                Rs_data <= RegFileB[19];
             else if (Rs == 4'b1100)
-                Rs_data <= r12_fiqB;
+                Rs_data <= RegFileB[20];
             else if (Rs == 4'b1101)
-                Rs_data <= r13_fiqB;
+                Rs_data <= RegFileB[21];
             else if (Rs == 4'b1110)
-                Rs_data <= r14_fiqB;
+                Rs_data <= RegFileB[22];
         end
         IRQ : begin
             if(Rn != 4'b1101 && Rn != 4'b1110)
                 Rn_data <= RegFileA[Rn];
             else if (Rn == 4'b1101)
-                Rn_data <= r13_irqA;
+                Rn_data <= RegFileA[27];
             else if (Rn == 4'b1110)
-                Rn_data <= r14_irqA;
+                Rn_data <= RegFileA[28];
             
             if(Rm != 4'b1101 && Rm != 4'b1110)
                 Rm_data <= RegFileA[Rm];
             else if (Rm == 4'b1101)
-                Rm_data <= r13_irqA;
+                Rm_data <= RegFileA[27];
             else if (Rm == 4'b1110)
-                Rm_data <= r14_irqA;
+                Rm_data <= RegFileA[28];
             
             if(Rs != 4'b1101 && Rs != 4'b1110)
                 Rs_data <= RegFileB[Rs];
             else if (Rs == 4'b1101)
-                Rs_data <= r13_irqB;
+                Rs_data <= RegFileB[27];
             else if (Rs == 4'b1110)
-                Rs_data <= r14_irqB;
+                Rs_data <= RegFileB[28];
         end
         SUPERVISOR : begin
             if(Rn != 4'b1101 && Rn != 4'b1110)
                 Rn_data <= RegFileA[Rn];
             else if (Rn == 4'b1101)
-                Rn_data <= r13_svcA;
+                Rn_data <= RegFileA[23];
             else if (Rn == 4'b1110)
-                Rn_data <= r14_svcA;
+                Rn_data <= RegFileA[24];
             
             if(Rm != 4'b1101 && Rm != 4'b1110)
                 Rm_data <= RegFileA[Rm];
             else if (Rm == 4'b1101)
-                Rm_data <= r13_svcA;
+                Rm_data <= RegFileA[23];
             else if (Rm == 4'b1110)
-                Rm_data <= r14_svcA;
+                Rm_data <= RegFileA[24];
             
             if(Rs != 4'b1101 && Rs != 4'b1110)
                 Rs_data <= RegFileB[Rs];
             else if (Rs == 4'b1101)
-                Rs_data <= r13_svcB;
+                Rs_data <= RegFileB[23];
             else if (Rs == 4'b1110)
-                Rs_data <= r14_svcB;
+                Rs_data <= RegFileB[24];
         end
         ABORT : begin
             if(Rn != 4'b1101 && Rn != 4'b1110)
                 Rn_data <= RegFileA[Rn];
             else if (Rn == 4'b1101)
-                Rn_data <= r13_abtA;
+                Rn_data <= RegFileA[25];
             else if (Rn == 4'b1110)
-                Rn_data <= r14_abtA;
+                Rn_data <= RegFileA[26];
             
             if(Rm != 4'b1101 && Rm != 4'b1110)
                 Rm_data <= RegFileA[Rm];
             else if (Rm == 4'b1101)
-                Rm_data <= r13_abtA;
+                Rm_data <= RegFileA[25];
             else if (Rm == 4'b1110)
-                Rm_data <= r14_abtA;
+                Rm_data <= RegFileA[26];
             
             if(Rs != 4'b1101 && Rs != 4'b1110)
                 Rs_data <= RegFileB[Rs];
             else if (Rs == 4'b1101)
-                Rs_data <= r13_abtB;
+                Rs_data <= RegFileB[25];
             else if (Rs == 4'b1110)
-                Rs_data <= r14_abtB;
+                Rs_data <= RegFileB[26];
         end
         UNDEFINED : begin
             if(Rn != 4'b1101 && Rn != 4'b1110)
                 Rn_data <= RegFileA[Rn];
             else if (Rn == 4'b1101)
-                Rn_data <= r13_undA;
+                Rn_data <= RegFileA[29];
             else if (Rn == 4'b1110)
-                Rn_data <= r14_undA;
+                Rn_data <= RegFileA[30];
             
             if(Rm != 4'b1101 && Rm != 4'b1110)
                 Rm_data <= RegFileA[Rm];
             else if (Rm == 4'b1101)
-                Rm_data <= r13_undA;
+                Rm_data <= RegFileA[29];
             else if (Rm == 4'b1110)
-                Rm_data <= r14_undA;
+                Rm_data <= RegFileA[30];
             
             if(Rs != 4'b1101 && Rs != 4'b1110)
                 Rs_data <= RegFileB[Rs];
             else if (Rs == 4'b1101)
-                Rs_data <= r13_undB;
+                Rs_data <= RegFileB[29];
             else if (Rs == 4'b1110)
-                Rs_data <= r14_undB;
+                Rs_data <= RegFileB[30];
         end
     endcase
 end
@@ -226,32 +223,32 @@ always@(negedge clk) begin
                 //RegFileC[Rd] <= Rd_data;
                 end
                 else if (Rd == 4'b1000) begin
-                    r8_fiqA <= Rd_data;
-                    r8_fiqB <= Rd_data;
+                    RegFileA[16] <= Rd_data;
+                    RegFileB[16] <= Rd_data;
                 end
                 else if (Rd == 4'b1001) begin
-                    r9_fiqA <= Rd_data;
-                    r9_fiqB <= Rd_data;
+                    RegFileA[17] <= Rd_data;
+                    RegFileB[17] <= Rd_data;
                 end
                 else if (Rd == 4'b1010) begin
-                    r10_fiqA <= Rd_data;
-                    r10_fiqB <= Rd_data;
+                    RegFileA[18] <= Rd_data;
+                    RegFileB[18] <= Rd_data;
                 end
                 else if (Rd == 4'b1011) begin
-                    r11_fiqA <= Rd_data;
-                    r11_fiqB <= Rd_data;
+                    RegFileA[19] <= Rd_data;
+                    RegFileB[19] <= Rd_data;
                 end
                 else if (Rd == 4'b1100) begin
-                    r12_fiqA <= Rd_data;
-                    r12_fiqB <= Rd_data;
+                    RegFileA[20] <= Rd_data;
+                    RegFileB[20] <= Rd_data;
                 end
                 else if (Rd == 4'b1101) begin
-                    r13_fiqA <= Rd_data;
-                    r13_fiqB <= Rd_data;
+                    RegFileA[21] <= Rd_data;
+                    RegFileB[21] <= Rd_data;
                 end
                 else if (Rd == 4'b1110) begin
-                    r14_fiqA <= Rd_data;
-                    r14_fiqB <= Rd_data;
+                    RegFileA[22] <= Rd_data;
+                    RegFileB[22] <= Rd_data;
                 end 
             end
             IRQ : begin
@@ -261,12 +258,12 @@ always@(negedge clk) begin
                     //RegFileC[Rd] <= Rd_data;
                     end
                     else if (Rd == 4'b1101) begin
-                        r13_irqA <= Rd_data;
-                        r13_irqB <= Rd_data;
+                        RegFileA[27] <= Rd_data;
+                        RegFileB[27] <= Rd_data;
                     end
                     else if (Rd == 4'b1110) begin
-                        r14_irqA <= Rd_data;
-                        r14_irqB <= Rd_data;
+                        RegFileA[28] <= Rd_data;
+                        RegFileB[28] <= Rd_data;
                     end
             end
             SUPERVISOR : begin
@@ -276,12 +273,12 @@ always@(negedge clk) begin
                     //RegFileC[Rd] <= Rd_data;
                     end
                     else if (Rd == 4'b1101) begin
-                        r13_svcA <= Rd_data;
-                        r13_svcB <= Rd_data;
+                        RegFileA[23] <= Rd_data;
+                        RegFileB[23] <= Rd_data;
                     end
                     else if (Rd == 4'b1110) begin
-                        r14_svcA <= Rd_data;
-                        r14_svcB <= Rd_data;
+                        RegFileA[24] <= Rd_data;
+                        RegFileB[24] <= Rd_data;
                     end
             end
             ABORT : begin
@@ -291,12 +288,12 @@ always@(negedge clk) begin
                     //RegFileC[Rd] <= Rd_data;
                     end
                     else if (Rd == 4'b1101) begin
-                        r13_abtA <= Rd_data;
-                        r13_abtB <= Rd_data;
+                        RegFileA[25] <= Rd_data;
+                        RegFileB[25] <= Rd_data;
                     end
                     else if (Rd == 4'b1110) begin
-                        r14_abtA <= Rd_data;
-                        r14_abtB <= Rd_data;
+                        RegFileA[26] <= Rd_data;
+                        RegFileB[26] <= Rd_data;
                     end
             end
             UNDEFINED : begin
@@ -306,12 +303,12 @@ always@(negedge clk) begin
                     //RegFileC[Rd] <= Rd_data;
                     end
                     else if (Rd == 4'b1101) begin
-                        r13_undA <= Rd_data;
-                        r13_undB <= Rd_data;
+                        RegFileA[29] <= Rd_data;
+                        RegFileB[29] <= Rd_data;
                     end
                     else if (Rd == 4'b1110) begin
-                        r14_undA <= Rd_data;
-                        r14_undB <= Rd_data;
+                        RegFileA[30] <= Rd_data;
+                        RegFileB[30] <= Rd_data;
                     end
             end
         endcase
@@ -338,32 +335,32 @@ always@(negedge clk) begin
                 //RegFileC[RdHi] <= RdHi_data;
                 end
                 else if (RdHi == 4'b1000) begin
-                    r8_fiqA <= RdHi_data;
-                    r8_fiqB <= RdHi_data;
+                    RegFileA[16] <= RdHi_data;
+                    RegFileB[16] <= RdHi_data;
                 end
                 else if (RdHi == 4'b1001) begin
-                    r9_fiqA <= RdHi_data;
-                    r9_fiqB <= RdHi_data;
+                    RegFileA[17] <= RdHi_data;
+                    RegFileB[17] <= RdHi_data;
                 end
                 else if (RdHi == 4'b1010) begin
-                    r10_fiqA <= RdHi_data;
-                    r10_fiqB <= RdHi_data;
+                    RegFileA[18] <= RdHi_data;
+                    RegFileB[18] <= RdHi_data;
                 end
                 else if (RdHi == 4'b1011) begin
-                    r11_fiqA <= RdHi_data;
-                    r11_fiqB <= RdHi_data;
+                    RegFileA[19] <= RdHi_data;
+                    RegFileB[19] <= RdHi_data;
                 end
                 else if (RdHi == 4'b1100) begin
-                    r12_fiqA <= RdHi_data;
-                    r12_fiqB <= RdHi_data;
+                    RegFileA[20] <= RdHi_data;
+                    RegFileB[20] <= RdHi_data;
                 end
                 else if (RdHi == 4'b1101) begin
-                    r13_fiqA <= RdHi_data;
-                    r13_fiqB <= RdHi_data;
+                    RegFileA[21] <= RdHi_data;
+                    RegFileB[21] <= RdHi_data;
                 end
                 else if (RdHi == 4'b1110) begin
-                    r14_fiqA <= RdHi_data;
-                    r14_fiqB <= RdHi_data;
+                    RegFileA[22] <= RdHi_data;
+                    RegFileB[22] <= RdHi_data;
                 end 
             end
             IRQ : begin
@@ -373,12 +370,12 @@ always@(negedge clk) begin
                     //RegFileC[Rd] <= RdHi_data;
                     end
                     else if (RdHi == 4'b1101) begin
-                        r13_irqA <= RdHi_data;
-                        r13_irqB <= RdHi_data;
+                        RegFileA[27] <= RdHi_data;
+                        RegFileB[27] <= RdHi_data;
                     end
                     else if (RdHi == 4'b1110) begin
-                        r14_irqA <= RdHi_data;
-                        r14_irqB <= RdHi_data;
+                        RegFileA[28] <= RdHi_data;
+                        RegFileB[28] <= RdHi_data;
                     end
             end
             SUPERVISOR : begin
@@ -388,12 +385,12 @@ always@(negedge clk) begin
                     //RegFileC[RdHi] <= RdHi_data;
                     end
                     else if (RdHi == 4'b1101) begin
-                        r13_svcA <= RdHi_data;
-                        r13_svcB <= RdHi_data;
+                        RegFileA[23] <= RdHi_data;
+                        RegFileB[23] <= RdHi_data;
                     end
                     else if (RdHi == 4'b1110) begin
-                        r14_svcA <= RdHi_data;
-                        r14_svcB <= RdHi_data;
+                        RegFileA[24] <= RdHi_data;
+                        RegFileB[24] <= RdHi_data;
                     end
             end
             ABORT : begin
@@ -403,12 +400,12 @@ always@(negedge clk) begin
                     //RegFileC[RdHi] <= RdHi_data;
                     end
                     else if (RdHi == 4'b1101) begin
-                        r13_abtA <= RdHi_data;
-                        r13_abtB <= RdHi_data;
+                        RegFileA[25] <= RdHi_data;
+                        RegFileB[25] <= RdHi_data;
                     end
                     else if (RdHi == 4'b1110) begin
-                        r14_abtA <= RdHi_data;
-                        r14_abtB <= RdHi_data;
+                        RegFileA[26] <= RdHi_data;
+                        RegFileB[26] <= RdHi_data;
                     end
             end
             UNDEFINED : begin
@@ -418,12 +415,12 @@ always@(negedge clk) begin
                     //RegFileC[Rd] <= Rd_data;
                     end
                     else if (RdHi == 4'b1101) begin
-                        r13_undA <= RdHi_data;
-                        r13_undB <= RdHi_data;
+                        RegFileA[29] <= RdHi_data;
+                        RegFileB[29] <= RdHi_data;
                     end
                     else if (RdHi == 4'b1110) begin
-                        r14_undA <= RdHi_data;
-                        r14_undB <= RdHi_data;
+                        RegFileA[30] <= RdHi_data;
+                        RegFileB[30] <= RdHi_data;
                     end
             end
         endcase
