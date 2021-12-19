@@ -2,15 +2,19 @@
 Implementation of Game Boy Advance hardware on Virtex 5 FPGA
 
 ## To do:
-1. THUMB decompressor
-1. Multiplier
+1. Top level/pipeline logic
+	1. Branch logic
+	1. Data forwarding
 1. PSR unit
-1. Memory module
-1. Jumps
-1. Data forwarding
-1. Pipeline logic
+1. THUMB decompressor
+1. Memory module (use dummy connections for now)
 
-## To test:
+
+## Needs more work
+1. Multiplier (for MLAL, need to pipeline and take in two more operands)
+
+
+## Ready to test:
 1. ALU
 1. Control Unit
 1. Conditional execution unit

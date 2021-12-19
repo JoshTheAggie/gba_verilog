@@ -10,6 +10,7 @@ module control_unit(
     output reg MemRead,
     output reg MemWrite,
     output reg Branch,
+    output reg LongMul,
     output reg I_flag,
     output reg S_flag,
     output reg A_flag,
@@ -40,6 +41,7 @@ always@(*)
       MemRead = 1'b0;
       MemWrite = 1'b0;
       Branch = 1'b0;
+      LongMul = 1'b0;
       I_flag = 1'b0;
       S_flag = 1'b0;
       A_flag = 1'b0;
@@ -70,6 +72,7 @@ always@(*)
         MemRead = 1'b0;
         MemWrite = 1'b0;
         Branch = 1'b0;
+        LongMul = 1'b0;
         I_flag = 1'b0;
         S_flag = instruction[20];
         A_flag = instruction[21];
@@ -98,6 +101,7 @@ always@(*)
         MemRead = 1'b0;
         MemWrite = 1'b0;
         Branch = 1'b0;
+        LongMul = 1'b1;
         I_flag = 1'b0;
         S_flag = instruction[20];
         A_flag = instruction[21];
@@ -126,6 +130,7 @@ always@(*)
         MemRead = 1'b1;
         MemWrite = 1'b1;
         Branch = 1'b0;
+        LongMul = 1'b0;
         I_flag = 1'b0;
         S_flag = 1'b0;
         A_flag = 1'b0;
@@ -154,6 +159,7 @@ always@(*)
         MemRead = 1'b0;
         MemWrite = 1'b0;
         Branch = 1'b1;
+        LongMul = 1'b0;
         I_flag = 1'b0;
         S_flag = 1'b0;
         A_flag = 1'b0;
@@ -182,6 +188,7 @@ always@(*)
         MemRead = instruction[20];
         MemWrite = ~instruction[20];
         Branch = 1'b0;
+        LongMul = 1'b0;
         I_flag = 1'b0;
         S_flag = instruction[6];
         A_flag = 1'b0;
@@ -210,6 +217,7 @@ always@(*)
         MemRead = instruction[20];
         MemWrite = ~instruction[20];
         Branch = 1'b0;
+        LongMul = 1'b0;
         I_flag = 1'b0;
         S_flag = instruction[6];
         A_flag = 1'b0;
@@ -238,6 +246,7 @@ always@(*)
         MemRead = 1'b0;
         MemWrite = 1'b0;
         Branch = 1'b0;
+        LongMul = 1'b0;
         I_flag = 1'b0;
         S_flag = 1'b0;
         A_flag = 1'b0;
@@ -266,6 +275,7 @@ always@(*)
         MemRead = 1'b0;
         MemWrite = 1'b0;
         Branch = 1'b0;
+        LongMul = 1'b0;
         I_flag = 1'b0;
         S_flag = 1'b0;
         A_flag = 1'b0;
@@ -294,6 +304,7 @@ always@(*)
         MemRead = 1'b0;
         MemWrite = 1'b0;
         Branch = 1'b0;
+        LongMul = 1'b0;
         I_flag = instruction[25];
         S_flag = 1'b0;
         A_flag = 1'b0;
@@ -322,6 +333,7 @@ always@(*)
         MemRead = 1'b0;
         MemWrite = 1'b0;
         Branch = 1'b0;
+        LongMul = 1'b0;
         I_flag = instruction[25];
         S_flag = instruction[20];
         A_flag = 1'b0;
@@ -350,6 +362,7 @@ always@(*)
         MemRead = 1'b0;
         MemWrite = 1'b0;
         Branch = 1'b0;
+        LongMul = 1'b0;
         I_flag = 1'b0;
         S_flag = 1'b0;
         A_flag = 1'b0;
@@ -379,6 +392,7 @@ always@(*)
         MemRead = instruction[20];
         MemWrite = ~instruction[20];
         Branch = 1'b0;
+        LongMul = 1'b0;
         I_flag = ~instruction[25]; //look at page 70 of datasheet(4-28). they flipped it
         S_flag = 1'b0;
         A_flag = 1'b0;
@@ -408,6 +422,7 @@ always@(*)
         MemRead = instruction[20];
         MemWrite = ~instruction[20];
         Branch = 1'b0;
+        LongMul = 1'b0;
         I_flag = 1'b0;
         S_flag = instruction[22];
         A_flag = 1'b0;
@@ -436,6 +451,7 @@ always@(*)
         MemRead = 1'b0;
         MemWrite = 1'b0;
         Branch = 1'b1;
+        LongMul = 1'b0;
         I_flag = 1'b0;
         S_flag = 1'b0;
         A_flag = 1'b0;
@@ -464,6 +480,7 @@ always@(*)
         MemRead = 1'b0;
         MemWrite = 1'b0;
         Branch = 1'b0;
+        LongMul = 1'b0;
         I_flag = 1'b0;
         S_flag = 1'b0;
         A_flag = 1'b0;
@@ -492,6 +509,7 @@ always@(*)
         MemRead = 1'b0;
         MemWrite = 1'b0;
         Branch = 1'b0;
+        LongMul = 1'b0;
         I_flag = 1'b0;
         S_flag = 1'b0;
         A_flag = 1'b0;
