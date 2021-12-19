@@ -2,13 +2,20 @@ module shifter(
     input wire [31:0] operand,
     input wire I_flag,
     input wire [7:0] shift_amount,
-    input wire [1:0] shift_type,
-    input wire [3:0] rotation_amt,
-    input wire [7:0] immediate,
+    input wire [11:0] operand2, //from instruction[11:0]
     input wire carry_in,
     output wire [31:0] shifter_out,
     output wire carryout
 );
+
+wire [1:0] shift_type;
+wire [3:0] rotation_amt;
+wire [7:0] immediate;
+assign shift_amount = operand2[11:4];
+assign shift_type = operand2[2:1];
+assign rotation_amt = operand2[11:8];
+assign immediate = operand2[7:0];
+
 // I_flag
 // 0 = operand 2 is a register
 //   11:4 is shift

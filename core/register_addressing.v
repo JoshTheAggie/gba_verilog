@@ -27,22 +27,22 @@ always@(*)
     24'b000XX0XXXXXXXXXX00001XX1: begin //halfword data transfer- register offset
       Rn = instruction[19:16];
       Rm = instruction[3:0];
-      Rs = 4'b0000;
+      Rs = instruction[15:12];
       end
     24'b000XX1XXXXXXXXXXXXXX1XX1: begin //halfword data transfer- immediate offset
       Rn = instruction[19:16];
       Rm = instruction[3:0];
-      Rs = 4'b0000;
+      Rs = instruction[15:12];
       end
     24'b00XXXXXXXXXXXXXXXXXXXXXX: begin //data processing/PSR xfer
       Rn = instruction[19:16];
       Rm = instruction[3:0];
-      Rs = 4'b0000;
+      Rs = instruction[11:8]; //needed as a shift amount for barrel shifter
       end
-    24'b01XXXXXXXXXXXXXXXXXXXXXX: begin //single data xfer
-      Rn = instruction[19:16];
-      Rm = 4'b0000;
-      Rs = 4'b0000;
+    24'b01XXXXXXXXXXXXXXXXXXXXXX: begin //single data xfer (LDR/STR)
+      Rn = instruction[19:16]; //base register
+      Rm = 4'b0000; 
+      Rs = instruction[15:12]; //source or destination
       end
     24'b011XXXXXXXXXXXXXXXXXXXX1: begin //undefined
       Rn = 4'b0000;
@@ -55,7 +55,7 @@ always@(*)
       Rs = 4'b0000;
       end
     24'b101XXXXXXXXXXXXXXXXXXXXX: begin //branch
-      Rn = 4'bXXXX;
+      Rn = 4'b1111; //need old PC
       Rm = 4'bXXXX;
       Rs = 4'bXXXX;
       end
