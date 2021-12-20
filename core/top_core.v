@@ -92,28 +92,51 @@ module core (
 
     //Fetch stage
     reg [31:0] currentPC;
-    wire [31:0] jumpTarget;
+    wire [31:0] nextPC;
+    wire [31:0] branchTarget;
     wire [31:0] currentInstruction_fetch;
-    wire [1:0] addrSel;
+    wire [25:0] bl_offset;
+    wire thumbMode;
 
     //Decode stage
     wire [31:0] currentInstruction_decode;
     wire [31:0] decompressedThumbInstruction;
-    wire aluSrc; //unknown if needed
-    wire memToReg;
-    wire regWrite;
-    wire memRead;
-    wire memWrite;
-    wire branch;
-    wire jump;
-    wire signExtend; //unknown if needed
-    wire jal;
-    wire jr;
-    wire [3:0] rs, rt, rd;
-    wire [5:0] opcode;
+    wire regDst_decode;
+    wire memToReg_decode;
+    wire regWrite_decode;
+    wire regWriteHi_decode;
+    wire memRead_decode;
+    wire memWrite_decode;
+    wire bx_decode;
+    wire bl_decode;
+    wire longMul_decode;
+    wire I_flag_decode;
+    wire S_flag_decode;
+    wire A_flag_decode;
+    wire U_flag_decode;
+    wire B_flag_decode;
+    wire P_flag_decode;
+    wire W_flag_decode;
+    wire L_flag_decode;
+    wire H_flag_decode;
+    wire Ps_flag_decode;
+    wire [1:0] PSRwrite_decode;
+    wire PSRread_decode;
+    wire [15:0] operand2_decode;
+    wire [3:0] rm, rn, rs, rdHi, rdLo;
+    wire [3:0] ALUopcode;
+    wire block_transfer_decode;
+    wire switchtoARM_decode;
+    wire switchtoTHUMB_decode;
+    wire SWI_decode;
+    wire UNDEFINED_decode;
+
+    wire [31:0] rn_data_decode, rm_data_decode, rs_data_decode;
+
+    wire permitted;
 
     //Execute stage
-    //reg [31:0] CPSR;
+    wire stall;
 
   localparam DECODE_PIPE_WIDTH  = 32;  //current_instruction
 
@@ -130,8 +153,13 @@ module core (
   //TODO: go back and update this as I learn more
 
   /*          FETCH STAGE           */
-
-
+  assign bl_offset = currentInstruction_decode[23:0] << 2;
+  assign nextPC = (bx_decode & permitted) ? rn_data_decode :
+                  (bl_decode & permitted) ? currentPC + {{6{bl_offset[25]}}, bl_offset} :
+                  thumbMode ? currentPC + 2 :
+                  currentPC + 4;
+  // need mux for stall. if stall, use currentPC. else use nextPC.
+  
   /*         DECODE STAGE           */
 
 
